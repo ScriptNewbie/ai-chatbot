@@ -1,15 +1,18 @@
 "use client"; // Mark this as a Client Component in Next.js
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function Chat() {
-  const [history, setHistory] = useState<any>([]);
+  const [history, setHistory] = useState<ChatEntry[]>([]);
   const [message, setMessage] = useState("");
   const [response, setResponse] = useState("");
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newHistory = [...history, { role: "user", content: message }];
+    const newHistory: ChatEntry[] = [
+      ...history,
+      { role: "user", content: message },
+    ];
     setHistory(newHistory);
     setMessage("");
 
@@ -40,10 +43,7 @@ export default function Chat() {
       setResponse((prev) => prev + chunk); // Append each chunk to the response
     }
 
-    setHistory((prev: any) => [
-      ...prev,
-      { role: "assistant", content: response },
-    ]);
+    setHistory((prev) => [...prev, { role: "assistant", content: response }]);
 
     setResponse("");
   };
@@ -51,7 +51,7 @@ export default function Chat() {
   return (
     <div>
       <div>
-        {history.map((msg: any, i: number) => (
+        {history.map((msg: ChatEntry, i: number) => (
           <p key={i}>
             {msg.role === "user" ? "You: " : "AI: "}
             {msg.content}
@@ -70,4 +70,9 @@ export default function Chat() {
       </form>
     </div>
   );
+}
+
+interface ChatEntry {
+  role: "user" | "assistant";
+  content: string;
 }
