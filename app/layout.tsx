@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pancake Earth",
+  title: "Pancakelike",
   description: "Earth is flat like a pancake. Prove me wrong!",
 };
 

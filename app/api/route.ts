@@ -8,8 +8,6 @@ const client = new OpenAI({
 export async function POST(request: Request) {
   const { history } = await request.json();
 
-  console.log(history);
-
   const stream = await client.chat.completions.create({
     model: "google/gemini-2.0-flash-lite-001",
     messages: [
