@@ -69,7 +69,7 @@ export default function Chat() {
     if (responseRef.current) {
       responseRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [response]);
+  }, [response, history, responseRef]);
 
   return (
     <div style={{ width: "100dvw", height: "100vh", padding: "72px" }}>
