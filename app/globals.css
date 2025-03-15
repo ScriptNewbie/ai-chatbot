@@ -44,3 +44,11 @@ a {
 input:focus {
   outline: none;
 }
+
+::-webkit-scrollbar {
+  display: none; /* Hides scrollbar in Chrome, Edge, Safari */
+}
+body {
+  -ms-overflow-style: none; /* Hides scrollbar in Internet Explorer and Edge */
+  scrollbar-width: none; /* Hides scrollbar in Firefox */
+}
