@@ -14,11 +14,19 @@ export const ChatMessage = ({
   ref?: RefObject<HTMLDivElement | null>;
 }) => {
   return (
-    <>
-      <Markdown>
-        {(message.role === "user" ? "You: " : "Jack: ") + message.content}
-      </Markdown>
+    <div
+      style={{
+        padding: "8px",
+        borderRadius: "8px",
+        margin: "8px",
+        backgroundColor:
+          message.role === "user" ? "rgb(70,70,240)" : "rgb(30,30,30)",
+        maxWidth: "70%",
+        justifySelf: message.role === "user" ? "flex-end" : "flex-start",
+      }}
+    >
+      <Markdown>{message.content}</Markdown>
       <div ref={ref} />
-    </>
+    </div>
   );
 };

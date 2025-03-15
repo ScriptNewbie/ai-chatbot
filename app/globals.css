@@ -40,3 +40,7 @@ a {
     color-scheme: dark;
   }
 }
+
+input:focus {
+  outline: none;
+}

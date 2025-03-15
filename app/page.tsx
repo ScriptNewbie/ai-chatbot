@@ -1,7 +1,9 @@
-"use client"; // Mark this as a Client Component in Next.js
+"use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { ChatEntry, ChatMessage } from "./components/ChatMessage";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Chat() {
   const [history, setHistory] = useState<ChatEntry[]>([]);
@@ -61,40 +63,69 @@ export default function Chat() {
   }, [response]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "space-between",
-        height: "100dvh",
-        maxHeight: "100dvh",
-      }}
-    >
-      <div style={{ flexGrow: 1, overflow: "scroll" }}>
-        {history.map((msg: ChatEntry, i: number) => (
-          <ChatMessage key={i} message={msg} />
-        ))}
-        {(response || waitingForResponse) && (
-          <ChatMessage
-            ref={responseRef}
-            message={{
-              role: "assistant",
-              content: response ? response : "...",
-            }}
-          />
-        )}
-      </div>
-      <div style={{ display: "flex", backgroundColor: "red" }}>
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexGrow: 1 }}>
-          <input
-            style={{ flexGrow: 1 }}
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type your message"
-          />
-          <button type="submit">Send</button>
-        </form>
+    <div style={{ width: "100dvw", height: "100vh", padding: "72px" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          maxHeight: "100%",
+        }}
+      >
+        <div style={{ flexGrow: 1, overflow: "scroll" }}>
+          {history.map((msg: ChatEntry, i: number) => (
+            <ChatMessage key={i} message={msg} />
+          ))}
+          {(response || waitingForResponse) && (
+            <ChatMessage
+              ref={responseRef}
+              message={{
+                role: "assistant",
+                content: response ? response : "...",
+              }}
+            />
+          )}
+        </div>
+        <div
+          style={{
+            display: "flex",
+
+            borderWidth: 0,
+            borderRadius: "8px",
+            backgroundColor: "rgb(30,30,30)",
+          }}
+        >
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexGrow: 1 }}
+          >
+            <input
+              style={{
+                flexGrow: 1,
+                marginRight: "8px",
+                borderWidth: 0,
+                padding: "16px",
+                backgroundColor: "transparent",
+              }}
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type your message"
+            />
+            <button
+              style={{
+                backgroundColor: "transparent",
+                borderWidth: 0,
+              }}
+              type="submit"
+            >
+              <FontAwesomeIcon
+                style={{ height: "18px", marginRight: "18px" }}
+                icon={faPaperPlane}
+              />
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
