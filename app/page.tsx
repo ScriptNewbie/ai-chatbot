@@ -14,6 +14,9 @@ export default function Chat() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!message) return;
+
     setWaitingForResponse(true);
     const newHistory: ChatEntry[] = [
       ...history,
