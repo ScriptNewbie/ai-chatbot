@@ -1,4 +1,3 @@
-import { RefObject } from "react";
 import Markdown from "react-markdown";
 
 export interface ChatEntry {
@@ -6,13 +5,7 @@ export interface ChatEntry {
   content: string;
 }
 
-export const ChatMessage = ({
-  message,
-  ref,
-}: {
-  message: ChatEntry;
-  ref?: RefObject<HTMLDivElement | null>;
-}) => {
+export const ChatMessage = ({ message }: { message: ChatEntry }) => {
   return (
     <div
       style={{
@@ -26,7 +19,6 @@ export const ChatMessage = ({
       }}
     >
       <Markdown>{message.content}</Markdown>
-      <div ref={ref} />
     </div>
   );
 };

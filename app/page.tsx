@@ -10,7 +10,7 @@ export default function Chat() {
   const [message, setMessage] = useState("");
   const [response, setResponse] = useState("");
   const [waitingForResponse, setWaitingForResponse] = useState(false);
-  const responseRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const clearChat = () => {
     setHistory([]);
@@ -66,10 +66,10 @@ export default function Chat() {
   };
 
   useEffect(() => {
-    if (responseRef.current) {
-      responseRef.current.scrollIntoView({ behavior: "smooth" });
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [response, history, responseRef]);
+  }, [response, history, ref]);
 
   return (
     <div style={{ width: "100dvw", height: "100vh", padding: "72px" }}>
@@ -98,13 +98,13 @@ export default function Chat() {
           ))}
           {(response || waitingForResponse) && (
             <ChatMessage
-              ref={responseRef}
               message={{
                 role: "assistant",
                 content: response ? response : "...",
               }}
             />
           )}
+          <div ref={ref} />
         </div>
         <div
           style={{
