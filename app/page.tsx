@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { ChatEntry, ChatMessage } from "./components/ChatMessage";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Chat() {
@@ -11,6 +11,12 @@ export default function Chat() {
   const [response, setResponse] = useState("");
   const [waitingForResponse, setWaitingForResponse] = useState(false);
   const responseRef = useRef<HTMLDivElement>(null);
+
+  const clearChat = () => {
+    setHistory([]);
+    setResponse("");
+    setMessage("");
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,6 +81,17 @@ export default function Chat() {
           maxHeight: "100%",
         }}
       >
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button
+            style={{
+              backgroundColor: "transparent",
+              borderWidth: 0,
+            }}
+            onClick={clearChat}
+          >
+            <FontAwesomeIcon style={{ height: "18px" }} icon={faTrash} />
+          </button>
+        </div>
         <div style={{ flexGrow: 1, overflow: "scroll" }}>
           {history.map((msg: ChatEntry, i: number) => (
             <ChatMessage key={i} message={msg} />
