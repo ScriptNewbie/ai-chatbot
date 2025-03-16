@@ -20,8 +20,6 @@ export const llmService = {
 
     if (!reader) return;
 
-    let response = "";
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break; // Exit when the stream ends
