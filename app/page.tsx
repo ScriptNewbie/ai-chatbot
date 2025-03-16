@@ -101,7 +101,14 @@ export default function Chat() {
             <FontAwesomeIcon style={{ height: "18px" }} icon={faTrash} />
           </button>
         </div>
-        <div style={{ flexGrow: 1, overflow: "scroll" }}>
+        <div
+          style={{
+            display: "flex",
+            flexGrow: 1,
+            overflow: "scroll",
+            flexDirection: "column",
+          }}
+        >
           {history.map((msg: ChatEntry, i: number) => (
             <ChatMessage key={i} message={msg} />
           ))}

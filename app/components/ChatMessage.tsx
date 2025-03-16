@@ -15,7 +15,8 @@ export const ChatMessage = ({ message }: { message: ChatEntry }) => {
         backgroundColor:
           message.role === "user" ? "rgb(70,70,240)" : "rgb(30,30,30)",
         maxWidth: "70%",
-        justifySelf: message.role === "user" ? "flex-end" : "flex-start",
+
+        alignSelf: message.role === "user" ? "flex-end" : "flex-start",
       }}
     >
       <Markdown>{message.content}</Markdown>
