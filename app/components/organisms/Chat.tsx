@@ -26,10 +26,14 @@ export default function Chat() {
     const history = buildHistory();
     handleOnPromptSendUIUpdates(history);
     let response = "";
-    await llmService.completeChat(history, (chunk) => {
-      response += chunk;
-      setResponse((prev) => prev + chunk);
-    });
+    await llmService.completeChat(
+      history,
+      (chunk) => {
+        response += chunk;
+        setResponse((prev) => prev + chunk);
+      },
+      () => setWaitingForResponse(false)
+    );
     handleOnResponseReceivedUIUpdates(response);
   };
 
@@ -51,10 +55,6 @@ export default function Chat() {
     ];
     return newHistory;
   };
-
-  useEffect(() => {
-    setWaitingForResponse(false);
-  }, [response]);
 
   return (
     <ChatContainer>

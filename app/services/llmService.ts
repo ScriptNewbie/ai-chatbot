@@ -3,7 +3,8 @@ import { ChatEntry } from "../components/atoms/ChatMessage";
 export const llmService = {
   completeChat: async (
     messages: ChatEntry[],
-    onChunk: (chunk: string) => void
+    onChunk: (chunk: string) => void,
+    onResponseBegin: () => void
   ) => {
     const res = await fetch("/api", {
       method: "POST",
@@ -18,8 +19,8 @@ export const llmService = {
     const reader = res?.body?.getReader();
     const decoder = new TextDecoder();
 
+    onResponseBegin();
     if (!reader) return;
-
     while (true) {
       const { done, value } = await reader.read();
       if (done) break; // Exit when the stream ends
