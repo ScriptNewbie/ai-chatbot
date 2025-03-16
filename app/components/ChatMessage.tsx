@@ -15,7 +15,7 @@ export const ChatMessage = ({ message }: { message: ChatEntry }) => {
         backgroundColor:
           message.role === "user" ? "rgb(70,70,240)" : "rgb(30,30,30)",
         maxWidth: "70%",
-
+        fontSize: "16px",
         alignSelf: message.role === "user" ? "flex-end" : "flex-start",
       }}
     >
