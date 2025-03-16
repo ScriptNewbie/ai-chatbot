@@ -72,13 +72,22 @@ export default function Chat() {
   }, [response, history, ref]);
 
   return (
-    <div style={{ width: "100dvw", height: "100vh", padding: "72px" }}>
+    <div
+      style={{
+        width: "100dvw",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        paddingTop: "32px",
+        paddingBottom: "32px",
+      }}
+    >
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          height: "100%",
-          maxHeight: "100%",
+          flexGrow: 1,
+          maxWidth: "95dvw",
         }}
       >
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
