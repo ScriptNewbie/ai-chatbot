@@ -75,7 +75,7 @@ export default function Chat() {
     <div
       style={{
         width: "100dvw",
-        height: "100vh",
+        height: "100dvh",
         display: "flex",
         justifyContent: "center",
         paddingTop: "32px",
