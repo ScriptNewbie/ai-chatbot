@@ -1,11 +1,12 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { ChatContainer } from "../atoms/ChatContainer";
 import { ChatEntry } from "../atoms/ChatMessage";
 import { ChatActions } from "../molecules/ChatActions";
 import { ChatHistory } from "../molecules/ChatHistory";
 import { ChatPrompt } from "../molecules/ChatPrompt";
+import { llmService } from "@/app/services/llmService";
 
 export default function Chat() {
   const [history, setHistory] = useState<ChatEntry[]>([]);
@@ -19,52 +20,41 @@ export default function Chat() {
     setMessage("");
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const sendPrompt = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!message) return;
+    const history = buildHistory();
+    handleOnPromptSendUIUpdates(history);
+    let response = "";
+    await llmService.completeChat(history, (chunk) => {
+      response += chunk;
+      setResponse((prev) => prev + chunk);
+    });
+    handleOnResponseReceivedUIUpdates(response);
+  };
 
+  const handleOnPromptSendUIUpdates = (history: ChatEntry[]) => {
     setWaitingForResponse(true);
+    setHistory(history);
+    setMessage("");
+  };
+
+  const handleOnResponseReceivedUIUpdates = (response: string) => {
+    setHistory((prev) => [...prev, { role: "assistant", content: response }]);
+    setResponse("");
+  };
+
+  const buildHistory = () => {
     const newHistory: ChatEntry[] = [
       ...history,
       { role: "user", content: message },
     ];
-    setHistory(newHistory);
-    setMessage("");
-
-    // Send the message to the API route
-    const res = await fetch("/api", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        history: newHistory,
-      }),
-    });
-
-    // Read the streaming response
-    const reader = res?.body?.getReader();
-    const decoder = new TextDecoder();
-
-    setWaitingForResponse(false);
-
-    if (!reader) return;
-
-    let response = "";
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break; // Exit when the stream ends
-      const chunk = decoder.decode(value, { stream: true });
-      response += chunk;
-      setResponse((prev) => prev + chunk); // Append each chunk to the response
-    }
-
-    setHistory((prev) => [...prev, { role: "assistant", content: response }]);
-
-    setResponse("");
+    return newHistory;
   };
+
+  useEffect(() => {
+    setWaitingForResponse(false);
+  }, [response]);
 
   return (
     <ChatContainer>
@@ -77,7 +67,7 @@ export default function Chat() {
       <ChatPrompt
         message={message}
         setMessage={setMessage}
-        handleSubmit={handleSubmit}
+        sendPrompt={sendPrompt}
       />
     </ChatContainer>
   );

@@ -4,11 +4,11 @@ import { ChatSendButton } from "../atoms/ChatSendButton";
 export const ChatPrompt = ({
   message,
   setMessage,
-  handleSubmit,
+  sendPrompt,
 }: {
   message: string;
   setMessage: (message: string) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  sendPrompt: (e: React.FormEvent<HTMLFormElement>) => void;
 }) => {
   return (
     <div
@@ -17,7 +17,7 @@ export const ChatPrompt = ({
         backgroundColor: "rgb(30,30,30)",
       }}
     >
-      <form onSubmit={handleSubmit} style={{ display: "flex" }}>
+      <form onSubmit={sendPrompt} style={{ display: "flex" }}>
         <ChatInput message={message} setMessage={setMessage} />
         <ChatSendButton />
       </form>
