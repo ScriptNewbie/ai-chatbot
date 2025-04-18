@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const { messages } = await request.json();
 
   const stream = await client.chat.completions.create({
-    model: "x-ai/grok-2-1212",
+    model: "x-ai/grok-3-mini-beta",
     messages: [
       {
         role: "system",
